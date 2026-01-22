@@ -576,6 +576,7 @@
                 mainTitle: "📚 متون طالب العلم",
                 subtitle: "جمع وترتيب وتحقيق: د. عبد المحسن بن محمد القاسم",
                 description: "اختبار ومتابعة للإخوة طلاب العلم",
+                tabStudy: "الدراسة",
                 tabQuiz: "الاختبار",
                 tabLibrary: "المكتبة",
                 tabProgress: "التقدم",
@@ -627,6 +628,7 @@
                 mainTitle: "📚 Student of Knowledge Texts",
                 subtitle: "Compiled and Verified by: Dr. Abdul Muhsin Al-Qasim",
                 description: "Quiz and Progress Tracker for Students of Knowledge",
+                tabStudy: "Study",
                 tabQuiz: "Quiz",
                 tabLibrary: "Library",
                 tabProgress: "Progress",
@@ -678,6 +680,7 @@
                 mainTitle: "📚 Textos del Estudiante de Conocimiento",
                 subtitle: "Compilado y Verificado por: Dr. Abdul Muhsin Al-Qasim",
                 description: "Cuestionario y Seguimiento de Progreso para Estudiantes",
+                tabStudy: "Estudio",
                 tabQuiz: "Examen",
                 tabLibrary: "Biblioteca",
                 tabProgress: "Progreso",
@@ -748,14 +751,16 @@
             
             // Update tabs
             const tabs = document.querySelectorAll('.tab-text');
-            tabs[0].textContent = t.tabQuiz;
-            tabs[1].textContent = t.tabLibrary;
-            tabs[2].textContent = t.tabProgress;
-            tabs[3].textContent = t.tabLeaderboard;
+            tabs[0].textContent = t.tabStudy;
+            tabs[1].textContent = t.tabQuiz;
+            tabs[2].textContent = t.tabLibrary;
+            tabs[3].textContent = t.tabProgress;
+            tabs[4].textContent = t.tabLeaderboard;
             
             // Re-render current view
             renderLibrary();
             renderLeaderboard();
+            renderStudyMode();
             if (currentUser) renderProgress();
         }
 
@@ -1177,10 +1182,25 @@
 
         function generateBookQuestions(book, count) {
             const questions = [];
+            const allBooks = mutoonDatabase.levels.flatMap(l => l.books);
+            
+            // Get points from other books for wrong answers
+            const otherPoints = allBooks
+                .filter(b => b.id !== book.id && b.mustKnow)
+                .flatMap(b => b.mustKnow);
             
             for (let i = 0; i < count && i < book.mustKnow.length; i++) {
                 const correctPoint = book.mustKnow[i];
-                const wrongPoints = book.mustKnow.filter((p, idx) => idx !== i).slice(0, 3);
+                
+                // Get 3 random wrong answers from OTHER books
+                const wrongAnswers = [];
+                const shuffledOthers = shuffle([...otherPoints]);
+                
+                for (let j = 0; j < 3 && j < shuffledOthers.length; j++) {
+                    if (!wrongAnswers.includes(shuffledOthers[j])) {
+                        wrongAnswers.push(shuffledOthers[j]);
+                    }
+                }
                 
                 questions.push({
                     text: currentLang === 'ar' 
@@ -1188,7 +1208,7 @@
                         : currentLang === 'en'
                         ? `From the book "${book.title}", which of the following points is correct?`
                         : `Del libro "${book.title}", ¿cuál de los siguientes puntos es correcto?`,
-                    options: shuffle([correctPoint, ...wrongPoints]),
+                    options: shuffle([correctPoint, ...wrongAnswers]),
                     correct: correctPoint,
                     type: 'mustKnow'
                 });

@@ -411,6 +411,64 @@
             margin: 5px 0;
             font-size: 0.95em;
         }
+        
+        .must-know-section {
+            background: #fff9e6;
+            border: 2px solid #ffc107;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .must-know-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #f57c00;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .must-know-item {
+            padding: 12px;
+            background: white;
+            border-right: 4px solid #ffc107;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-size: 1.05em;
+        }
+        
+        .study-card {
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 15px 0;
+            transition: all 0.3s;
+        }
+        
+        .study-card:hover {
+            border-color: #667eea;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+        }
+        
+        .test-this-btn {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: bold;
+            margin-top: 15px;
+            transition: transform 0.2s;
+        }
+        
+        .test-this-btn:hover {
+            transform: scale(1.05);
+        }
     </style>
 </head>
 <body>
@@ -427,6 +485,7 @@
         </header>
         
         <div class="tabs">
+            <button class="tab" onclick="showTab('study')"><span class="tab-text">الدراسة</span></button>
             <button class="tab active" onclick="showTab('quiz')"><span class="tab-text">الاختبار</span></button>
             <button class="tab" onclick="showTab('library')"><span class="tab-text">المكتبة</span></button>
             <button class="tab" onclick="showTab('progress')"><span class="tab-text">التقدم</span></button>
@@ -434,6 +493,13 @@
         </div>
         
         <div class="content">
+            <!-- Study Tab -->
+            <div id="study" class="tab-content">
+                <h2 id="studyTitle">📖 وضع الدراسة</h2>
+                <p id="studyDescription" style="color: #666; margin-bottom: 20px;">ادرس النقاط الأساسية لكل كتاب قبل الاختبار</p>
+                <div id="studyContent"></div>
+            </div>
+            
             <!-- Quiz Tab -->
             <div id="quiz" class="tab-content active">
                 <div id="userSetup" class="user-form">
@@ -726,6 +792,16 @@
                             title: "ثلاثة الأصول",
                             author: "محمد بن عبد الوهاب",
                             topic: "العقيدة - معرفة الله والنبي والدين",
+                            mustKnow: [
+                                "الأسئلة الأربعة التي يجب على كل مسلم معرفتها",
+                                "معرفة العبد ربه: الله خالق كل شيء ورازقه ومدبر أموره",
+                                "معرفة دين الإسلام بالأدلة: الاستسلام لله بالتوحيد والانقياد له بالطاعة",
+                                "معرفة النبي محمد ﷺ: اسمه ونسبه وبلده وعمره",
+                                "مراتب الدين الثلاث: الإسلام والإيمان والإحسان",
+                                "أركان الإسلام الخمسة",
+                                "أركان الإيمان الستة",
+                                "معنى الإحسان: أن تعبد الله كأنك تراه"
+                            ],
                             chapters: [
                                 { name: "المقدمة", points: ["أهمية طلب العلم", "الأسئلة الأربعة"] },
                                 { name: "معرفة الله", points: ["معرفة الرب", "معرفة الدين", "معرفة النبي"] }
@@ -736,6 +812,13 @@
                             title: "القواعد الأربع",
                             author: "محمد بن عبد الوهاب",
                             topic: "العقيدة - الشرك وأنواعه",
+                            mustKnow: [
+                                "القاعدة الأولى: الإخلاص لله وحده وترك الشرك",
+                                "المشركون يقرون بتوحيد الربوبية لكن أشركوا في العبادة",
+                                "القاعدة الثانية: الله أمر بالاجتماع في الدين ونهى عن التفرق",
+                                "القاعدة الثالثة: وجوب السمع والطاعة لولي الأمر في المعروف",
+                                "القاعدة الرابعة: العلم قبل القول والعمل"
+                            ],
                             chapters: [
                                 { name: "القاعدة الأولى", points: ["الإخلاص لله", "مخالفة المشركين"] },
                                 { name: "القاعدة الثانية", points: ["الاجتماع على الدين"] }
@@ -746,6 +829,18 @@
                             title: "نواقض الإسلام",
                             author: "محمد بن عبد الوهاب",
                             topic: "العقيدة - نواقض الإسلام",
+                            mustKnow: [
+                                "عدد نواقض الإسلام: عشرة نواقض",
+                                "الشرك في عبادة الله (دعاء الموتى والاستغاثة بهم)",
+                                "من جعل بينه وبين الله وسائط يدعوهم",
+                                "من لم يكفر المشركين أو شك في كفرهم",
+                                "الاستهزاء بشيء من دين الرسول ﷺ",
+                                "بغض شيء مما جاء به الرسول ﷺ",
+                                "السحر ومنه الصرف والعطف",
+                                "مظاهرة المشركين ومعاونتهم على المسلمين",
+                                "من اعتقد أن هدي غير النبي ﷺ أكمل من هديه",
+                                "الإعراض عن دين الله لا يتعلمه ولا يعمل به"
+                            ],
                             chapters: [
                                 { name: "الناقض الأول", points: ["الشرك في عبادة الله"] },
                                 { name: "الناقض الثاني", points: ["الوسائط بين الله والخلق"] }
@@ -756,6 +851,18 @@
                             title: "الأربعون النووية",
                             author: "الإمام النووي",
                             topic: "الحديث - أربعون حديثاً جامعاً",
+                            mustKnow: [
+                                "الحديث الأول: إنما الأعمال بالنيات",
+                                "الحديث الثاني: مراتب الدين (الإسلام والإيمان والإحسان)",
+                                "الحديث الثالث: أركان الإسلام الخمسة",
+                                "الحديث الخامس: من أحدث في أمرنا هذا ما ليس منه فهو رد",
+                                "الحديث السابع: الدين النصيحة",
+                                "الحديث الثامن: حرمة دم المسلم وماله وعرضه",
+                                "الحديث التاسع: ما نهيتكم عنه فاجتنبوه",
+                                "الحديث الثاني عشر: من حسن إسلام المرء تركه ما لا يعنيه",
+                                "الحديث السادس عشر: لا تغضب",
+                                "الحديث الثامن والعشرون: حق الله وحق العباد"
+                            ],
                             chapters: [
                                 { name: "الحديث الأول", points: ["إنما الأعمال بالنيات"] },
                                 { name: "الحديث الثاني", points: ["مراتب الدين"] }
@@ -792,6 +899,18 @@
                             title: "كتاب التوحيد",
                             author: "محمد بن عبد الوهاب",
                             topic: "العقيدة - التوحيد وأنواعه",
+                            mustKnow: [
+                                "التوحيد: إفراد الله بالعبادة",
+                                "أنواع التوحيد الثلاثة: الربوبية والألوهية والأسماء والصفات",
+                                "فضل التوحيد: يمحو الذنوب ويوجب الجنة",
+                                "الخوف من الشرك: أخوف ما يخاف على الأمة",
+                                "الدعاء عبادة ولا يجوز صرفه لغير الله",
+                                "الذبح والنذر عبادة لا تكون إلا لله",
+                                "الاستعاذة والاستغاثة بغير الله شرك",
+                                "التوسل المشروع والممنوع",
+                                "الشفاعة المثبتة والمنفية",
+                                "تحريم السحر والكهانة والتنجيم"
+                            ],
                             chapters: [
                                 { name: "فضل التوحيد", points: ["معنى التوحيد", "فضل التوحيد"] },
                                 { name: "الخوف من الشرك", points: ["خطورة الشرك", "الحذر من الشرك"] }
@@ -903,6 +1022,7 @@
             loadUsers();
             renderLibrary();
             renderLeaderboard();
+            renderStudyMode();
         }
 
         function loadUsers() {
@@ -986,6 +1106,95 @@
                 <button class="btn-secondary" onclick="endQuiz()">${t('endQuiz')}</button>
             `;
             document.getElementById('quizInterface').innerHTML = html;
+        }
+
+        function renderStudyMode() {
+            const studyContent = document.getElementById('studyContent');
+            let html = '';
+            
+            mutoonDatabase.levels.forEach(level => {
+                const levelName = t(`level${level.id}`);
+                html += `<h3 style="color: #667eea; margin: 25px 0 15px 0; font-size: 1.4em;">${levelName}</h3>`;
+                
+                level.books.forEach(book => {
+                    if (!book.mustKnow) return; // Skip books without must-know points
+                    
+                    html += `
+                        <div class="study-card">
+                            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 15px;">
+                                <div>
+                                    <h3 style="color: #333; margin-bottom: 5px;">${book.title}</h3>
+                                    <p style="color: #666; font-size: 0.9em;">${book.author}</p>
+                                </div>
+                                <span class="level-badge">${levelName}</span>
+                            </div>
+                            
+                            <div class="must-know-section">
+                                <div class="must-know-title">
+                                    ⭐ ${currentLang === 'ar' ? 'النقاط الأساسية التي يجب حفظها' : currentLang === 'en' ? 'Essential Points to Memorize' : 'Puntos Esenciales para Memorizar'}
+                                </div>
+                                ${book.mustKnow.map((point, index) => `
+                                    <div class="must-know-item">
+                                        <strong>${index + 1}.</strong> ${point}
+                                    </div>
+                                `).join('')}
+                            </div>
+                            
+                            <button class="test-this-btn" onclick="startBookQuiz('${book.id}')">
+                                ${currentLang === 'ar' ? '✓ اختبرني في هذا الكتاب' : currentLang === 'en' ? '✓ Test Me on This Book' : '✓ Examíname sobre Este Libro'}
+                            </button>
+                        </div>
+                    `;
+                });
+            });
+            
+            studyContent.innerHTML = html;
+        }
+
+        function startBookQuiz(bookId) {
+            // Switch to quiz tab
+            showTab('quiz');
+            
+            // Auto-start user if already logged in
+            if (!currentUser) {
+                alert(currentLang === 'ar' ? 'الرجاء إدخال اسمك أولاً' : currentLang === 'en' ? 'Please enter your name first' : 'Por favor ingresa tu nombre primero');
+                return;
+            }
+            
+            // Generate questions specifically for this book
+            const book = mutoonDatabase.levels
+                .flatMap(l => l.books)
+                .find(b => b.id === bookId);
+                
+            if (!book) return;
+            
+            currentQuestions = generateBookQuestions(book, 10);
+            currentQuestionIndex = 0;
+            currentScore = 0;
+            document.getElementById('currentScore').textContent = '0';
+            showQuestion();
+        }
+
+        function generateBookQuestions(book, count) {
+            const questions = [];
+            
+            for (let i = 0; i < count && i < book.mustKnow.length; i++) {
+                const correctPoint = book.mustKnow[i];
+                const wrongPoints = book.mustKnow.filter((p, idx) => idx !== i).slice(0, 3);
+                
+                questions.push({
+                    text: currentLang === 'ar' 
+                        ? `من كتاب "${book.title}"، أي من النقاط التالية صحيحة؟`
+                        : currentLang === 'en'
+                        ? `From the book "${book.title}", which of the following points is correct?`
+                        : `Del libro "${book.title}", ¿cuál de los siguientes puntos es correcto?`,
+                    options: shuffle([correctPoint, ...wrongPoints]),
+                    correct: correctPoint,
+                    type: 'mustKnow'
+                });
+            }
+            
+            return questions;
         }
 
         function startQuizMode(mode) {
@@ -1277,4 +1486,3 @@
     </script>
 </body>
 </html>
-                        
